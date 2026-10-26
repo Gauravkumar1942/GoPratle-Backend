@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const RequirementSchema = new mongoose.Schema(
   {
@@ -18,8 +18,8 @@ const RequirementSchema = new mongoose.Schema(
     },
     dateType: {
       type: String,
-      enum: ['single', 'range'],
-      default: 'single',
+      enum: ["single", "range"],
+      default: "single",
     },
     startDate: {
       type: String,
@@ -36,41 +36,41 @@ const RequirementSchema = new mongoose.Schema(
     venue: {
       type: String,
       trim: true,
-      default: '',
+      default: "",
     },
-    // Category classification (planner | performer | crew)
+
     category: {
       type: String,
       required: true,
-      enum: ['planner', 'performer', 'crew'],
+      enum: ["planner", "performer", "crew"],
     },
 
-    // Step 2 & Step 3: Category-Specific Details
     categoryDetails: {
       type: mongoose.Schema.Types.Mixed,
       required: true,
       default: {},
     },
 
-    // Contact Information
     contact: {
       name: { type: String, required: true },
       email: { type: String, required: true },
       phone: { type: String, required: true },
-      organization: { type: String, default: '' },
+      organization: { type: String, default: "" },
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Auto-generate GoPratle reference code
-RequirementSchema.pre('save', function (next) {
-  if (!this.referenceId) {
-    const code = this.category ? this.category.slice(0, 3).toUpperCase() : 'EVT';
-    const num = Math.floor(1000 + Math.random() * 9000);
-    this.referenceId = `GP-${code}-${num}`;
-  }
-  next();
-});
+// RequirementSchema.pre("save", function (next) {
+//   if (!this.referenceId) {
+//     const code = this.category
+//       ? this.category.slice(0, 3).toUpperCase()
+//       : "EVT";
+//     const num = Math.floor(1000 + Math.random() * 9000);
+//     this.referenceId = `GP-${code}-${num}`;
+//   }
+//   next();
+// });
 
-module.exports = mongoose.model('Requirement', RequirementSchema);
+module.exports = mongoose.model("Requirement", RequirementSchema);
